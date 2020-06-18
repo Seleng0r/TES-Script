@@ -1,0 +1,37 @@
+begin AA_lock_bash_script
+
+Short controlvar
+
+Short button
+
+If ( OnActivate == 1 )
+	If (	controlvar == 0 )
+		MessageBox "Attempt to break the lock?", "Yes", "No"
+		Set controlvar to 1
+	elseif controlvar > 1
+		activate
+	endif
+endif
+
+if ( controlvar == 1 )
+	set button to GetButtonPressed
+	if ( button == -1 )
+		return
+	elseif ( button == 0 )
+		if ( Player->GetStrength => 50 )
+			Set controlvar to 2
+		else
+			MessageBox "It didn't budge"
+			Set controlvar to 0
+		endif
+	else
+		Set controlvar to 0
+	endif
+elseif ( controlvar == 2 )
+	Messagebox "The lock breaks"
+	Unlock
+	Activate
+	Set controlvar to 3
+endif
+
+end
